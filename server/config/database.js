@@ -19,9 +19,18 @@ async function sqlConnection() {
     await sequelize.authenticate();
     console.log("Connection to MySQL successful!");
   } catch (error) {
-    console.log("Connection to MySQL FAILED!");
-    console.log(error);
+    console.log("Connection to MySQL FAILED!", error);
+    retryConnection();
   }
+}
+
+/**
+ * retry to reconnect to database every 5 sec if the first connection fail
+ */
+function retryConnection() {
+  setTimeout(() => {
+    sqlConnection()
+  }, 5000);
 }
 
 module.exports = { sqlConnection };

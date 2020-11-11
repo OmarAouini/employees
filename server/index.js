@@ -9,7 +9,6 @@ require ('dotenv/config')
 
 //environment variables
 const port = process.env.PORT
-//const db_port = process.env.DB_PORT
 
 // middlewares
 app.use(cors({
@@ -30,10 +29,8 @@ app.get('*', function (req, res) {
     res.render("./error")
   });
 
-
 //db connection
 sqlConnection()
-
 
 //server start
 app.listen(port, () => console.log(`employees app listening on port ${port}!`))
