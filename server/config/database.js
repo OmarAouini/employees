@@ -1,25 +1,19 @@
+const mongoose = require("mongoose");
 require("dotenv/config");
-const Sequelize = require("sequelize");
 
 /**
- * define the connection to MySQL
+ * define the connection to MongoDB
  */
-async function sqlConnection() {
+async function mongoConnection() {
   try {
-    let sequelize = new Sequelize(
-      process.env.DB_NAME,
-      process.env.DB_USER,
-      process.env.DB_PASS,
-      {
-        host: process.env.DB_HOST,
-        dialect: process.env.DB_DIALECT,
-      }
-    );
-
-    await sequelize.authenticate();
-    console.log("Connection to MySQL successful!");
+    await mongoose.connect(process.env.DB_HOST, {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Connection to MongoDB successful!");
   } catch (error) {
-    console.log("Connection to MySQL FAILED!", error);
+    console.log("Connection to MongoDB FAILED!", error);
     retryConnection();
   }
 }
@@ -27,10 +21,10 @@ async function sqlConnection() {
 /**
  * retry to reconnect to database every 5 sec if the first connection fail
  */
-function retryConnection() {
-  setTimeout(() => {
-    sqlConnection()
+async function retryConnection() {
+  await setTimeout(() => {
+    mongoConnection();
   }, 5000);
 }
 
-module.exports = { sqlConnection };
+module.exports = { mongoConnection };

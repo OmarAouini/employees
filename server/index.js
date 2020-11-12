@@ -4,7 +4,7 @@ const cors = require('cors')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const compression = require("compression");
-const { sqlConnection } = require('./config/database')
+const { mongoConnection } = require('./config/database')
 require ('dotenv/config')
 
 //environment variables
@@ -22,6 +22,7 @@ app.use(compression());
 
 //routes
 app.get('/', (req, res) => res.send('Hello World!'))
+app.use('/employees', require('./routes/EmployeesRoute'));
 
 //404 handler
 app.get('*', function (req, res) {
@@ -30,7 +31,7 @@ app.get('*', function (req, res) {
   });
 
 //db connection
-sqlConnection()
+mongoConnection()
 
 //server start
 app.listen(port, () => console.log(`employees app listening on port ${port}!`))
