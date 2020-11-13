@@ -3,7 +3,7 @@ version: '3'
 services:
   employees-database:
     image: mongo:latest
-    container_name: "employees-database"
+    container_name: "employees-documents-database"
     ports:
     - 27017:27017
     volumes:

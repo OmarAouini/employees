@@ -1,4 +1,4 @@
-const employee = require("../models/Employee");
+const employee = require('../models/employee')
 
 //business logics
 
@@ -10,7 +10,8 @@ exports.create = async (req, res) => {
       return;
     }
 
-    const toBeSaved = new Employee({
+    //prepare for saving
+    let toBeSaved = new employee({
       name: req.body.name,
       surname: req.body.surname,
       dob: req.body.dob,
@@ -25,6 +26,7 @@ exports.create = async (req, res) => {
       roles: [],
       departments: [],
     });
+
     req.body.salaries.forEach((element) => {
       toBeSaved.salaries.push(element);
     });
@@ -35,16 +37,17 @@ exports.create = async (req, res) => {
       toBeSaved.roles.push(element);
     });
 
-    await employee.save(toBeSaved).then((data) => res.status(201).send(data));
+    //saving
+    await toBeSaved.save().then((data) => res.status(201).send(data))
   } catch (error) {
-    res.status(500).send({message: `error while creating new employee: + ${error} + n\ ${toBeSaved}`});
+    res.status(500).send({message: `error while creating new employee: + ${error}`});
   }
 };
 
 //find all employees
 exports.findAll = async (req, res) => {
   try {
-    let employees = await employee.findAll();
+    const employees = await employee.find();
     res.status(200).send(employees);
   } catch (error) {
     res.status(500).send(error);
@@ -88,7 +91,7 @@ exports.update = async (req, res) => {
     })
 
   } catch (error) {
-    res.status(500).send({message: `error while updating employee with id: ${id} \n ${error}`});
+    res.status(500).send({message: `error while updating employee \n ${error}`});
   }
 };
 
@@ -112,7 +115,7 @@ exports.delete = async (req, res) => {
 
   } catch (error) {
     res.status(500).send({
-      message: `Could not delete employee with id= ${id} n\ ${error}`
+      message: `Could not delete employee  n\ ${error}`
     });
   }
 };
