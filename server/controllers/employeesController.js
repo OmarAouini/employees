@@ -24,7 +24,7 @@ exports.create = async (req, res) => {
       },
       salaries: [],
       roles: [],
-      departments: [],
+      departments: []
     });
 
     req.body.salaries.forEach((element) => {
