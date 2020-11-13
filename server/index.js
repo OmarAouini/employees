@@ -21,7 +21,7 @@ app.use(morgan("common"))
 app.use(compression());
 
 //routes
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.send('index page'))
 app.use('/employees', require('./routes/EmployeesRoute'));
 
 //404 handler

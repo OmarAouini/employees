@@ -1,12 +1,11 @@
 const employee = require("../models/Employee");
-const employeeValidator = require("../models/validators/EmployeeValidator");
 
 //business logics
 
 //create new employee
 exports.create = async (req, res) => {
   try {
-    if (!employeeValidator(req.body)) {
+    if (!req.body) {
       res.status(400).send({ message: "employee not valid!" });
       return;
     }
@@ -71,17 +70,63 @@ exports.findOne = async (req, res) => {
 // edit an employee
 exports.update = async (req, res) => {
   try {
-  } catch (error) {}
+    if (!req.body) {
+      res.status(400).send({message: "element to update cannot be empty!"});
+    }
+
+    const id = req.param.id;
+
+    employee.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot update employee with id=${id}. Maybe employee was not found!`
+        });
+      } else {
+        res.status(200).send({message: "employee successfuly updated!"});
+      }
+    })
+
+  } catch (error) {
+    res.status(500).send({message: `error while updating employee with id: ${id} \n ${error}`});
+  }
 };
 
 // delete an employee
 exports.delete = async (req, res) => {
   try {
-  } catch (error) {}
+    const id = req.param.id;
+
+    employee.findByIdAndRemove(id)
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot delete employee with id=${id}. Maybe employee was not found!`
+        });
+      } else {
+        res.status(200).send({
+          message: "employee was deleted successfully!"
+        });
+      }
+    });
+
+  } catch (error) {
+    res.status(500).send({
+      message: `Could not delete employee with id= ${id} n\ ${error}`
+    });
+  }
 };
 
 // delete all employees
 exports.deleteAll = async (req, res) => {
   try {
-  } catch (error) {}
+    employee.deleteMany({})
+    .then(data => {
+      res.status(200).send({
+        message: `${data.deletedCount} employees were deleted successfully!`
+      });
+    })
+  } catch (error) {
+    res.status(500).send({message: `error while deleting all the employees! \n ${error}`})
+  }
 };
