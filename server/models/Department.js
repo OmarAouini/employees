@@ -1,15 +1,13 @@
-module.exports = mongoose => {
-    const Department = mongoose.model(
-      "department",
-      mongoose.Schema(
-        {
-          id: String,
-          name: String,
-          num_of_employees: Number
-        },
-        { timestamps: true }
-      )
-    );
+const mongoose = require("mongoose");
+
+const DepartmentSchema = mongoose.Schema(
+  {
+    name: String,
+    numOfEmployees: Number
+  }
+  );
+
+module.exports = mongoose.model("department", DepartmentSchema);
+
+
   
-    return Department;
-  };

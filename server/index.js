@@ -23,6 +23,7 @@ app.use(compression());
 //routes
 app.get('/', (req, res) => res.send('index page'))
 app.use('/employees', require('./routes/EmployeesRoute'));
+app.use('/departments', require('./routes/DepartmentRoute'));
 
 //404 handler
 app.get('*', function (req, res) {
