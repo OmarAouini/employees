@@ -6,9 +6,9 @@ module.exports = mongoose => {
           name: String,
           surname: String,
           dob: Date,
-          fiscal_code: String,
+          fiscalCode: String,
           address: {
-            address_road: String,
+            addressRoad: String,
             city: String,
             country: String,
             postalCode: Number
@@ -40,5 +40,5 @@ module.exports = mongoose => {
       )
     );
     
-    return Tutorial;
+    return Employee;
   };

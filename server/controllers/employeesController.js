@@ -1,11 +1,45 @@
 const employee = require("../models/Employee");
+const employeeValidator = require("../models/validators/EmployeeValidator");
 
 //business logics
 
 //create new employee
 exports.create = async (req, res) => {
   try {
-  } catch (error) {}
+    if (!employeeValidator(req.body)) {
+      res.status(400).send({ message: "employee not valid!" });
+      return;
+    }
+
+    const toBeSaved = new Employee({
+      name: req.body.name,
+      surname: req.body.surname,
+      dob: req.body.dob,
+      fiscalCode: req.body.fiscalCode,
+      address: {
+        addressRoad: req.body.address.addressRoad,
+        city: req.body.address.city,
+        country: req.body.address.country,
+        postalCode: req.body.address.postalCode,
+      },
+      salaries: [],
+      roles: [],
+      departments: [],
+    });
+    req.body.salaries.forEach((element) => {
+      toBeSaved.salaries.push(element);
+    });
+    req.body.roles.forEach((element) => {
+      toBeSaved.roles.push(element);
+    });
+    req.body.departments.forEach((element) => {
+      toBeSaved.roles.push(element);
+    });
+
+    await employee.save(toBeSaved).then((data) => res.status(201).send(data));
+  } catch (error) {
+    res.status(500).send({message: `error while creating new employee: + ${error} + n\ ${toBeSaved}`});
+  }
 };
 
 //find all employees
@@ -45,7 +79,6 @@ exports.delete = async (req, res) => {
   try {
   } catch (error) {}
 };
-
 
 // delete all employees
 exports.deleteAll = async (req, res) => {
