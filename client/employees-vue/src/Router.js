@@ -6,12 +6,13 @@ Vue.use(Router);
 export default new Router({
   mode: "history",
   routes: [
-   /* {
+    {
       path: "/",
       alias: "/index",
       name: "index",
       component: () => import("./App.vue")
-    },
+    }
+    /*
     {
       path: "/employees",
       name: "employees",

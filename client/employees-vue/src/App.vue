@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Navbar/>
+    <slot id="content"><Employee/></slot>
     <Footer/>
   </div>
 </template>
@@ -8,12 +9,14 @@
 <script>
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import Employee from './components/Employees'
 
 export default {
   name: 'App',
   components: {
     Navbar,
     Footer,
+    Employee
   }
 }
 </script>

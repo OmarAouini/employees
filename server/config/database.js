@@ -22,6 +22,7 @@ async function mongoConnection() {
  * retry to reconnect to database every 5 sec if the first connection fail
  */
 async function retryConnection() {
+  console.log("retrying connection to mongoDB...");
   await setTimeout(() => {
     mongoConnection();
   }, 5000);
